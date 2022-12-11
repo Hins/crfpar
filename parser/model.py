@@ -23,9 +23,12 @@ class Model(nn.Module):
                                         n_embed=args.n_char_embed,
                                         n_out=args.n_feat_embed)
         elif args.feat == 'bert':
-            self.feat_embed = BertEmbedding(model=args.bert_model,
-                                            n_layers=args.n_bert_layers,
-                                            n_out=args.n_feat_embed)
+            self.feat_embed = BertEmbedding(model="bert-base-chinese",
+                                            n_layers=12,
+                                            n_out=100)
+                                            #n_layers=args.n_bert_layers,
+                                            #n_out=args.n_feat_embed)
+
         else:
             self.feat_embed = nn.Embedding(num_embeddings=args.n_feats,
                                            embedding_dim=args.n_feat_embed)
@@ -71,6 +74,10 @@ class Model(nn.Module):
         return self
 
     def forward(self, words, feats):
+        print("words shape are ")
+        print(words.shape)
+        print("words are ")
+        print(words)
         batch_size, seq_len = words.shape
         # get the mask and lengths of given batch
         mask = words.ne(self.pad_index)
@@ -89,7 +96,10 @@ class Model(nn.Module):
         elif self.args.feat == 'bert':
             feat_embed = self.feat_embed(*feats)
         else:
+            feats[""]
             feat_embed = self.feat_embed(feats)
+        print("feat_embed is ")
+        print(feat_embed.shape)
         word_embed, feat_embed = self.embed_dropout(word_embed, feat_embed)
         # concatenate the word and feat representations
         embed = torch.cat((word_embed, feat_embed), dim=-1)

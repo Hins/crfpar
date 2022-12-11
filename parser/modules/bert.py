@@ -32,7 +32,8 @@ class BertEmbedding(nn.Module):
         return s
 
     def forward(self, subwords, bert_lens, bert_mask):
-        batch_size, seq_len = bert_lens.shape
+        batch_size = 32
+        seq_len = 20
         mask = bert_lens.gt(0)
 
         if not self.requires_grad:

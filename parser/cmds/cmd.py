@@ -18,8 +18,10 @@ class CMD(object):
 
     def __call__(self, args):
         self.args = args
+        '''
         if not os.path.exists(args.file):
             os.mkdir(args.file)
+        '''
         if not os.path.exists(args.fields) or args.preprocess:
             print("Preprocess the data")
             self.WORD = Field('words', pad=pad, unk=unk, bos=bos, lower=True)
@@ -55,7 +57,7 @@ class CMD(object):
         else:
             self.fields = torch.load(args.fields)
             if args.feat in ('char', 'bert'):
-                self.WORD, self.FEAT = self.fields.FORM
+                self.WORD, self.FEAT = self.fields.FORM, self.fields.FORM
             else:
                 self.WORD, self.FEAT = self.fields.FORM, self.fields.CPOS
             self.ARC, self.REL = self.fields.HEAD, self.fields.DEPREL
@@ -84,6 +86,8 @@ class CMD(object):
             mask = words.ne(self.args.pad_index)
             # ignore the first token of each sentence
             mask[:, 0] = 0
+            print("feats are ")
+            print(feats)
             arc_scores, rel_scores = self.model(words, feats)
             loss, arc_scores = self.get_loss(arc_scores, rel_scores,
                                              arcs, rels, mask)

@@ -73,6 +73,7 @@ class Corpus(object):
         start, sentences = 0, []
         fields = [field if field is not None else Field(str(i))
                   for i, field in enumerate(fields)]
+
         with open(path, 'r') as f:
             lines = [line.strip() for line in f]
         for i, line in enumerate(lines):
@@ -88,7 +89,6 @@ class Corpus(object):
         if max_len is not None:
             sentences = [sentence for sentence in sentences
                          if len(sentence.arcs) < max_len]
-
         return cls(fields, sentences)
 
     def save(self, path):
