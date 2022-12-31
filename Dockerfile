@@ -11,4 +11,4 @@ RUN pip install -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors
 
 COPY . .
 
-CMD python code/monitoring.py --input /input --result /result
+CMD python /code/monitoring.py --input /input --result /result

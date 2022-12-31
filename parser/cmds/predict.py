@@ -65,7 +65,6 @@ class Predict(CMD):
             self.fields = self.fields._replace(PHEAD=Field('probs'))
             corpus = Corpus.load(mid, self.fields)
             dataset = TextDataset(corpus, [self.WORD, self.FEAT], 5)
-            os.remove(mid)
             # set the data loader
             dataset.loader = batchify(dataset, 32)
             print(f"{len(dataset)} sentences, "
@@ -73,6 +72,7 @@ class Predict(CMD):
             print("Make predictions on the dataset")
             test_start_time = time.time()
             pred_arcs, pred_rels, pred_probs = self.predict(dataset.loader)
+            os.remove(mid)
             indices = torch.tensor([i for bucket in dataset.buckets.values()
                                     for i in bucket]).argsort()
             arcs_list = [pred_arcs[i] for i in indices]

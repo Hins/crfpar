@@ -1,4 +1,4 @@
-# 基于CRFPar的句法分析模型推理工具
+# 基于camembert的句法分析模型推理工具
 
 ## 目录
 
@@ -10,7 +10,7 @@
 
 ## <span name="1">功能介绍</span>
 
-​		基于CRFPar的句法分析模型推理工具，针对中文句法分析输出结果。输入的格式为 .txt 输出格式为 .json。
+​		基于camembert的句法分析模型推理工具，针对中文句法分析输出结果。输入的格式为 .txt 输出格式为 .json。
 
 ##<span name="2">上手指南 </span>
 
@@ -32,6 +32,7 @@ pip install -r requirements.txt
 code
 ├── README.md ---> 工具说明
 ├── Dockerfile ---> docker镜像工具
+├── /model/ ---> 预训练模型目录
 ├── /parser/ ---> 模型训练工具
 ├── config.ini ---> 模型配置文件
 ├── inference.py ---> 推理工具

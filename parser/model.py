@@ -8,7 +8,6 @@ import torch
 import torch.nn as nn
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 
-
 class Model(nn.Module):
 
     def __init__(self, args):
@@ -74,10 +73,6 @@ class Model(nn.Module):
         return self
 
     def forward(self, words, feats):
-        print("words shape are ")
-        print(words.shape)
-        print("words are ")
-        print(words)
         batch_size, seq_len = words.shape
         # get the mask and lengths of given batch
         mask = words.ne(self.pad_index)
@@ -96,10 +91,14 @@ class Model(nn.Module):
         elif self.args.feat == 'bert':
             feat_embed = self.feat_embed(*feats)
         else:
-            feats[""]
             feat_embed = self.feat_embed(feats)
-        print("feat_embed is ")
-        print(feat_embed.shape)
+            '''
+            encoded_input = self.bert_tokenizer(words, return_tensors='pt')
+            output = self.bert_model(**encoded_input)
+            hidden_states = output.last_hidden_state
+            feat_embed = hidden_states
+            '''
+
         word_embed, feat_embed = self.embed_dropout(word_embed, feat_embed)
         # concatenate the word and feat representations
         embed = torch.cat((word_embed, feat_embed), dim=-1)
